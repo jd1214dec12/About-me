@@ -82,7 +82,7 @@
         }
         .nexus-card:hover { transform: translateY(-4px); }
 
-        /* ---- AVATAR (with Image) ---- */
+        /* ---- AVATAR ---- */
         .avatar {
             width: 96px;
             height: 96px;
@@ -126,7 +126,7 @@
             opacity: 0.4;
         }
 
-        /* ---- MUSIC PLAYER ---- */
+        /* ---- MUSIC PLAYER (with selector) ---- */
         .music-wrapper {
             margin-bottom: 28px;
             padding: 16px 20px;
@@ -136,6 +136,7 @@
             transition: transform 0.3s ease;
         }
         .music-wrapper:hover { transform: scale(1.01); }
+
         .music-info {
             display: flex;
             align-items: center;
@@ -144,10 +145,84 @@
             font-size: 13px;
             font-weight: 400;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .music-info i { color: #ffffff; font-size: 18px; opacity: 0.7; }
-        .music-info .unmute-hint { margin-left: auto; font-size: 10px; opacity: 0.4; }
+        .music-info .now-playing {
+            margin-left: auto;
+            font-size: 11px;
+            opacity: 0.5;
+            font-style: italic;
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ---- MUSIC SELECTOR (slide menu) ---- */
+        .music-selector {
+            margin-bottom: 10px;
+        }
+        .selector-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            backdrop-filter: blur(4px);
+        }
+        .selector-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .selector-btn i { font-size: 14px; opacity: 0.7; }
+
+        /* ---- SLIDE MENU (song list) ---- */
+        .song-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .song-menu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .song-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-weight: 400;
+            padding: 10px 16px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            text-align: left;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .song-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+        .song-item i { font-size: 14px; opacity: 0.5; width: 20px; }
+        .song-item .song-title { flex: 1; }
+        .song-item .song-artist { font-size: 11px; opacity: 0.4; }
 
         #audioPlayer {
             width: 100%;
@@ -156,52 +231,23 @@
             border: none;
             outline: none;
             filter: invert(1) brightness(0.8);
+            margin-top: 6px;
         }
 
-        /* ---- FLOATING ANIMATION (1 second) ---- */
+        /* ---- FLOATING ANIMATION ---- */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-6px); }
             100% { transform: translateY(0px); }
         }
-
-        /* APPLY TO ALL BUTTONS: social & play */
-        .social-btn, .play-btn {
+        .social-btn, .selector-btn {
             animation: float 1.5s ease-in-out infinite;
         }
-
-        /* Slight delay para magkakaiba ang galaw */
         .social-btn:nth-child(2) { animation-delay: 0.2s; }
         .social-btn:nth-child(3) { animation-delay: 0.4s; }
-        .play-btn { animation-delay: 0.1s; }
+        .selector-btn { animation-delay: 0.1s; }
 
-        /* ---- MANUAL PLAY BUTTON ---- */
-        .play-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 600;
-            padding: 10px 24px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            width: 100%;
-            letter-spacing: 0.5px;
-            backdrop-filter: blur(4px);
-        }
-        .play-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: scale(1.02) translateY(-2px);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
-        .play-btn i {
-            margin-right: 8px;
-        }
-
-        /* ---- SOCIAL BUTTONS (monochrome) ---- */
+        /* ---- SOCIAL BUTTONS ---- */
         .social-grid { display: flex; flex-direction: column; gap: 14px; }
         .social-btn {
             display: flex;
@@ -242,7 +288,8 @@
             .handle { font-size: 24px; }
             .social-btn { padding: 16px 16px; font-size: 16px; }
             .social-btn i { font-size: 22px; width: 28px; }
-            .play-btn { font-size: 14px; padding: 8px 16px; }
+            .song-item { font-size: 13px; padding: 8px 14px; }
+            .music-info .now-playing { font-size: 10px; max-width: 100px; }
         }
     </style>
 </head>
@@ -262,21 +309,56 @@
             <i class="fas fa-circle"></i> WEB DEVELOPER <i class="fas fa-circle"></i> BUILDER <i class="fas fa-circle"></i> INNOVATOR
         </div>
 
-        <!-- 🎵 MUSIC PLAYER (Manual Play) -->
+        <!-- 🎵 MUSIC PLAYER WITH SELECTOR -->
         <div class="music-wrapper">
             <div class="music-info">
                 <i class="fas fa-headphones"></i>
-                <span>BoyWithUke — Prairies</span>
-                <span class="unmute-hint"><i class="fas fa-volume-up"></i> click play</span>
+                <span>Music Player</span>
+                <span class="now-playing" id="nowPlaying">Select a song</span>
             </div>
+
+            <!-- SELECTOR BUTTON (opens/closes menu) -->
+            <div class="music-selector">
+                <button class="selector-btn" id="toggleMenu">
+                    <i class="fas fa-music"></i> Pumili ng Kanta <i class="fas fa-chevron-down" id="menuArrow" style="margin-left:auto; font-size:12px;"></i>
+                </button>
+            </div>
+
+            <!-- SLIDE MENU (song list) -->
+            <div class="song-menu" id="songMenu">
+                <div class="song-item" data-song="kalapastangan" data-artist="Fitter Karma" data-title="Kalapastangan">
+                    <i class="fas fa-play"></i>
+                    <span class="song-title">Kalapastangan</span>
+                    <span class="song-artist">— Fitter Karma</span>
+                </div>
+                <div class="song-item" data-song="imsorrymom" data-artist="Marino" data-title="I'm Sorry Mom">
+                    <i class="fas fa-play"></i>
+                    <span class="song-title">I'm Sorry Mom</span>
+                    <span class="song-artist">— Marino</span>
+                </div>
+                <div class="song-item" data-song="babydoll" data-artist="BoyWithUke" data-title="Baby Doll">
+                    <i class="fas fa-play"></i>
+                    <span class="song-title">Baby Doll</span>
+                    <span class="song-artist">— BoyWithUke</span>
+                </div>
+                <div class="song-item" data-song="prairies" data-artist="BoyWithUke" data-title="Prairies">
+                    <i class="fas fa-play"></i>
+                    <span class="song-title">Prairies</span>
+                    <span class="song-artist">— BoyWithUke</span>
+                </div>
+                <!-- BAGO: MULTO -->
+                <div class="song-item" data-song="multo" data-artist="Cup of Joe" data-title="Multo">
+                    <i class="fas fa-play"></i>
+                    <span class="song-title">Multo</span>
+                    <span class="song-artist">— Cup of Joe</span>
+                </div>
+            </div>
+
+            <!-- AUDIO PLAYER -->
             <audio id="audioPlayer" loop>
-                <source src="prairies.mp3" type="audio/mpeg">
+                <source src="" type="audio/mpeg" id="audioSource">
                 Your browser does not support the audio element.
             </audio>
-            <!-- MANUAL PLAY BUTTON -->
-            <button class="play-btn" id="playButton">
-                <i class="fas fa-play"></i> I-play ang Musika
-            </button>
         </div>
 
         <!-- SOCIAL LAUNCHPAD -->
@@ -301,28 +383,80 @@
 
     </div>
 
-    <!-- 🧠 JAVASCRIPT: Play & Unmute -->
+    <!-- 🧠 JAVASCRIPT -->
     <script>
-        // Function to play audio and unmute
-        function playAudio() {
-            const audio = document.getElementById('audioPlayer');
-            audio.muted = false;
-            audio.volume = 0.8;
-            audio.play().catch(error => {
-                console.log('Playback failed:', error);
-            });
-        }
+        const audio = document.getElementById('audioPlayer');
+        const audioSource = document.getElementById('audioSource');
+        const nowPlaying = document.getElementById('nowPlaying');
+        const toggleBtn = document.getElementById('toggleMenu');
+        const songMenu = document.getElementById('songMenu');
+        const menuArrow = document.getElementById('menuArrow');
+        const songItems = document.querySelectorAll('.song-item');
 
-        // Clicking the whole card also triggers play (convenience)
-        document.getElementById('mainCard').addEventListener('click', function(e) {
-            if (e.target.closest('a') || e.target.closest('button')) return;
-            playAudio();
+        let isMenuOpen = false;
+        let currentSong = null;
+
+        // Toggle menu
+        toggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            isMenuOpen = !isMenuOpen;
+            songMenu.classList.toggle('open', isMenuOpen);
+            menuArrow.classList.toggle('fa-chevron-down', !isMenuOpen);
+            menuArrow.classList.toggle('fa-chevron-up', isMenuOpen);
         });
 
-        // Manual play button
-        document.getElementById('playButton').addEventListener('click', function(e) {
-            e.stopPropagation();
-            playAudio();
+        // Select song
+        songItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const songFile = this.dataset.song + '.mp3';
+                const songTitle = this.dataset.title;
+                const songArtist = this.dataset.artist;
+
+                // Update audio source
+                audioSource.src = songFile;
+                audio.load();
+                
+                // Play
+                audio.muted = false;
+                audio.volume = 0.8;
+                audio.play().catch(error => {
+                    console.log('Playback error:', error);
+                });
+
+                // Update now playing display
+                nowPlaying.textContent = songTitle + ' — ' + songArtist;
+                currentSong = songFile;
+
+                // Close menu after selection
+                isMenuOpen = false;
+                songMenu.classList.remove('open');
+                menuArrow.classList.remove('fa-chevron-up');
+                menuArrow.classList.add('fa-chevron-down');
+
+                // Highlight selected
+                songItems.forEach(s => s.style.background = 'rgba(255,255,255,0.03)');
+                this.style.background = 'rgba(255,255,255,0.12)';
+            });
+        });
+
+        // Click card to play (if no song selected, do nothing)
+        document.getElementById('mainCard').addEventListener('click', function(e) {
+            if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.song-item')) return;
+            if (currentSong) {
+                audio.play().catch(err => console.log(err));
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.music-wrapper')) {
+                if (isMenuOpen) {
+                    isMenuOpen = false;
+                    songMenu.classList.remove('open');
+                    menuArrow.classList.remove('fa-chevron-up');
+                    menuArrow.classList.add('fa-chevron-down');
+                }
+            }
         });
     </script>
 
