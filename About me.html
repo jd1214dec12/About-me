@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JD · Digital Nexus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000000;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* ---- PULSING WHITE GLOWS ---- */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: 0;
+            animation: pulseGlow 8s ease-in-out infinite alternate;
+        }
+        body::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+            top: -20%;
+            left: -20%;
+        }
+        body::after {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+            bottom: -20%;
+            right: -20%;
+            animation-delay: 4s;
+            animation-direction: alternate-reverse;
+        }
+        @keyframes pulseGlow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+            100% { transform: scale(1.4) translate(40px, 30px); opacity: 0.8; }
+        }
+
+        /* ---- GEOMETRIC GRID ---- */
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ---- GLASS CARD ---- */
+        .nexus-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 440px;
+            padding: 48px 36px 40px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 48px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .nexus-card:hover { transform: translateY(-4px); }
+
+        /* ---- AVATAR (with Image) ---- */
+        .avatar {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden; /* Crops the image to circle */
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 60px rgba(255, 255, 255, 0.15);
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image fills the circle nicely */
+            display: block;
+        }
+
+        /* ---- TYPOGRAPHY ---- */
+        .handle {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+        .sub-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 20px;
+        }
+        .sub-title i {
+            color: #ffffff;
+            margin: 0 8px;
+            font-size: 6px;
+            vertical-align: middle;
+            opacity: 0.4;
+        }
+
+        /* ---- MUSIC PLAYER ---- */
+        .music-wrapper {
+            margin-bottom: 28px;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: transform 0.3s ease;
+        }
+        .music-wrapper:hover { transform: scale(1.01); }
+        .music-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .music-info i { color: #ffffff; font-size: 18px; opacity: 0.7; }
+        .music-info .unmute-hint { margin-left: auto; font-size: 10px; opacity: 0.4; }
+        #audioPlayer {
+            width: 100%;
+            height: 40px;
+            background: transparent;
+            border: none;
+            outline: none;
+            filter: invert(1) brightness(0.8);
+        }
+
+        /* ---- SOCIAL BUTTONS (monochrome) ---- */
+        .social-grid { display: flex; flex-direction: column; gap: 14px; }
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 18px 20px;
+            border-radius: 60px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+        .social-btn i { font-size: 26px; width: 32px; transition: transform 0.3s ease; color: #ffffff; opacity: 0.7; }
+        .social-btn:hover i { transform: scale(1.15) rotate(-4deg); opacity: 1; }
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+            transform: scale(1.02);
+        }
+
+        /* ---- FOOTER ---- */
+        .footer-meta {
+            margin-top: 32px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.12);
+            letter-spacing: 1px;
+        }
+        .footer-meta i { color: rgba(255, 255, 255, 0.3); margin: 0 4px; }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 480px) {
+            .nexus-card { padding: 32px 20px 30px; border-radius: 32px; }
+            .handle { font-size: 24px; }
+            .social-btn { padding: 16px 16px; font-size: 16px; }
+            .social-btn i { font-size: 22px; width: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-overlay"></div>
+
+    <div class="nexus-card" id="mainCard">
+
+        <!-- 🖼️ PROFILE PICTURE (replace 'profile.jpg' with your filename) -->
+        <div class="avatar">
+            <img src="profile.jpg" alt="JD Avatar" />
+        </div>
+
+        <div class="handle">@jd1214dec12</div>
+        <div class="sub-title">
+            <i class="fas fa-circle"></i> WEB DEVELOPER <i class="fas fa-circle"></i> BUILDER <i class="fas fa-circle"></i> INNOVATOR
+        </div>
+
+        <!-- 🎵 AUTOPLAY + LOOP MP3 -->
+        <div class="music-wrapper">
+            <div class="music-info">
+                <i class="fas fa-headphones"></i>
+                <span>BoyWithUke — Prairies</span>
+                <span class="unmute-hint"><i class="fas fa-volume-mute"></i> click to unmute</span>
+            </div>
+            <audio id="audioPlayer" autoplay loop muted>
+                <source src="prairies.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <!-- SOCIAL LAUNCHPAD -->
+        <div class="social-grid">
+            <a href="https://www.facebook.com/Jd1214dec12" target="_blank" rel="noopener noreferrer" class="social-btn btn-fb">
+                <i class="fab fa-facebook-f"></i> Facebook
+                <span style="margin-left:auto; font-size:14px; opacity:0.3;"><i class="fas fa-arrow-up-right-from-square"></i></span>
+            </a>
+            <a href="https://www.tiktok.com/@jd1214dec12_?_r=1&_t=ZS-97TgX9aQLoI" target="_blank" rel="noopener noreferrer" class="social-btn btn-tt">
+                <i class="fab fa-tiktok"></i> TikTok
+                <span style="margin-left:auto; font-size:14px; opacity:0.3;"><i class="fas fa-arrow-up-right-from-square"></i></span>
+            </a>
+            <a href="https://www.instagram.com/jd1214dec12?igsh=MW1zczJmYmhvM2lzYQ==" target="_blank" rel="noopener noreferrer" class="social-btn btn-ig">
+                <i class="fab fa-instagram"></i> Instagram
+                <span style="margin-left:auto; font-size:14px; opacity:0.3;"><i class="fas fa-arrow-up-right-from-square"></i></span>
+            </a>
+        </div>
+
+        <div class="footer-meta">
+            <i class="fas fa-bolt"></i> SHΔDØW NEXUS <i class="fas fa-bolt"></i>
+        </div>
+
+    </div>
+
+    <!-- 🧠 UNMUTE ON FIRST CLICK -->
+    <script>
+        document.getElementById('mainCard').addEventListener('click', function() {
+            const audio = document.getElementById('audioPlayer');
+            audio.muted = false;
+            audio.volume = 0.8;
+        }, { once: true });
+    </script>
+
+</body>
+</html>
