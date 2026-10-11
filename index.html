@@ -25,8 +25,7 @@
         overflow-x: hidden;
         padding: 20px;
     }
-
-    /* PULSING WHITE GLOWS */
+    
     body::before,
     body::after {
         content: '';
@@ -76,7 +75,6 @@
         }
     }
 
-    /* GEOMETRIC GRID */
     .grid-overlay {
         position: fixed;
         inset: 0;
@@ -95,7 +93,6 @@
         pointer-events: none;
     }
 
-    /* GLASS CARD */
     .nexus-card {
         position: relative;
         z-index: 10;
@@ -118,7 +115,6 @@
         transform: translateY(-4px);
     }
 
-    /* AVATAR */
     .avatar {
         width: 96px;
         height: 96px;
@@ -135,8 +131,6 @@
         object-fit: cover;
         display: block;
     }
-
-    /* PROFILE NAME */
     .handle {
         font-size: 28px;
         font-weight: 800;
@@ -165,7 +159,6 @@
         opacity: 0.4;
     }
 
-    /* MUSIC PLAYER */
     .music-wrapper {
         margin-bottom: 28px;
         padding: 16px 20px;
@@ -207,7 +200,6 @@
         text-overflow: ellipsis;
     }
 
-    /* MUSIC SELECTOR */
     .music-selector {
         margin-bottom: 10px;
     }
@@ -239,8 +231,6 @@
         font-size: 14px;
         opacity: 0.7;
     }
-
-    /* SONG MENU */
     .song-menu {
         max-height: 0;
         overflow: hidden;
@@ -302,8 +292,6 @@
         filter: invert(1) brightness(0.8);
         margin-top: 6px;
     }
-
-    /* FLOATING ANIMATION */
     @keyframes float {
         0% {
             transform: translateY(0);
@@ -335,7 +323,6 @@
         animation-delay: 0.1s;
     }
 
-    /* SOCIAL BUTTONS */
     .social-grid {
         display: flex;
         flex-direction: column;
@@ -377,8 +364,6 @@
         box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
         transform: scale(1.02) translateY(-3px);
     }
-
-    /* FOOTER */
     .footer-meta {
         margin-top: 32px;
         font-size: 12px;
@@ -387,7 +372,6 @@
         text-shadow: none;
     }
 
-    /* RESPONSIVE */
     @media (max-width: 480px) {
         .nexus-card {
             padding: 32px 20px 30px;
@@ -423,12 +407,10 @@
 </head><body>
     <div class="grid-overlay"></div><main class="nexus-card" id="mainCard">
 
-    <!-- PROFILE PICTURE -->
     <div class="avatar">
         <img src="profile.jpg" alt="JD Avatar" />
     </div>
 
-    <!-- PROFILE NAME: PRESERVED -->
     <div class="handle">@jd1214dec12</div>
 
     <div class="sub-title">
@@ -440,7 +422,6 @@
         INNOVATOR
     </div>
 
-    <!-- MUSIC PLAYER -->
     <section class="music-wrapper">
         <div class="music-info">
             <i class="fas fa-headphones"></i>
@@ -448,7 +429,6 @@
             <span class="now-playing" id="nowPlaying">Select a song</span>
         </div>
 
-        <!-- SELECTOR BUTTON -->
         <div class="music-selector">
             <button
                 class="selector-btn"
@@ -458,7 +438,7 @@
                 aria-controls="songMenu"
             >
                 <i class="fas fa-music"></i>
-                Pumili ng Kanta
+                choose music
                 <i
                     class="fas fa-chevron-down"
                     id="menuArrow"
@@ -467,7 +447,6 @@
             </button>
         </div>
 
-        <!-- SONG LIST -->
         <div class="song-menu" id="songMenu">
             <button
                 class="song-item"
@@ -529,19 +508,17 @@
                 <span class="song-artist">— Cup of Joe</span>
             </button>
         </div>
-
-        <!-- AUDIO PLAYER -->
+        
         <audio id="audioPlayer" controls loop preload="none">
             <source src="" type="audio/mpeg" id="audioSource" />
             Your browser does not support the audio element.
         </audio>
     </section>
 
-    <!-- SOCIAL LINKS -->
     <div class="social-grid">
         <a
             href="https://www.facebook.com/Jd1214dec12"
-            target="_blank"
+            target="https://www.facebook.com/Jd1214dec12"
             rel="noopener noreferrer"
             class="social-btn btn-fb"
         >
@@ -554,7 +531,7 @@
 
         <a
             href="https://www.tiktok.com/@jd1214dec12_?_r=1&_t=ZS-97TgX9aQLoI"
-            target="_blank"
+            target="https://www.tiktok.com/@jd1214dec12_?_r=1&_t=ZS-97TgX9aQLoI"
             rel="noopener noreferrer"
             class="social-btn btn-tt"
         >
@@ -567,7 +544,7 @@
 
         <a
             href="https://www.instagram.com/jd1214dec12?igsh=MW1zczJmYmhvM2lzYQ=="
-            target="_blank"
+            target="https://www.instagram.com/jd1214dec12?igsh=MW1zczJmYmhvM2lzYQ=="
             rel="noopener noreferrer"
             class="social-btn btn-ig"
         >
@@ -578,15 +555,13 @@
             </span>
         </a>
     </div>
-
-    <!-- UPDATED FOOTER -->
+        
     <div class="footer-meta">
         Shiryuu_kenn
     </div>
 
 </main>
 
-<!-- JAVASCRIPT -->
 <script>
     const audio = document.getElementById('audioPlayer');
     const audioSource = document.getElementById('audioSource');
@@ -600,7 +575,6 @@
     let isMenuOpen = false;
     let currentSong = null;
 
-    // Open or close the song menu
     toggleBtn.addEventListener('click', function (event) {
         event.stopPropagation();
 
@@ -613,7 +587,6 @@
         toggleBtn.setAttribute('aria-expanded', String(isMenuOpen));
     });
 
-    // Select and play a song
     songItems.forEach(function (item) {
         item.addEventListener('click', function () {
             const songFile = this.dataset.song + '.mp3';
@@ -636,15 +609,12 @@
             });
 
             currentSong = songFile;
-
-            // Close the menu
             isMenuOpen = false;
             songMenu.classList.remove('open');
             menuArrow.classList.remove('fa-chevron-up');
             menuArrow.classList.add('fa-chevron-down');
             toggleBtn.setAttribute('aria-expanded', 'false');
-
-            // Highlight selected song
+            
             songItems.forEach(function (song) {
                 song.style.background = 'rgba(255,255,255,0.03)';
             });
@@ -652,9 +622,7 @@
             this.style.background = 'rgba(255,255,255,0.12)';
         });
     });
-
-    // Clicking the card can resume the current song,
-    // but clicks on links, buttons, and songs are ignored.
+    
     mainCard.addEventListener('click', function (event) {
         if (
             event.target.closest('a') ||
@@ -672,7 +640,6 @@
         }
     });
 
-    // Close menu when clicking outside the music player
     document.addEventListener('click', function (event) {
         if (!event.target.closest('.music-wrapper') && isMenuOpen) {
             isMenuOpen = false;
